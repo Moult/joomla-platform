@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @package	Joomla.Platform
+ * @subpackage	FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license	GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -14,9 +14,9 @@ jimport('joomla.filesystem.path');
 /**
  * A File handling class
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- * @since       11.1
+ * @package	Joomla.Platform
+ * @subpackage	FileSystem
+ * @since	11.1
  */
 class JFile
 {
@@ -59,19 +59,43 @@ class JFile
 	 *
 	 * @since   11.1
 	 */
-	public static function makeSafe($file)
-	{
-		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
+	//public static function makeSafe($file)
+	//{
+		//$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
 
-		return preg_replace($regex, '', $file);
+		//return preg_replace($regex, '', $file);
+	//}
+
+	/**
+	 * Makes file name safe to use
+	 *
+	 * @param   string   $filename	 The name of the file [not full path]
+	 * @param   boolean  $multibyte  Support for multibyte file-name
+	 *
+	 * @return  string  The sanitised string
+	 *
+	 * @since   11.1
+	 */
+	public static function makeSafe($filename, $multibyte = false)
+	{
+		if ($multibyte)
+		{
+			$search = "/\?%*:|\"<>#;()&;, ";
+			return str_replace(str_split($search), '_', $filename);
+		}
+		else
+		{
+			$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
+			return preg_replace($regex, '', $filename);
+		}
 	}
 
 	/**
 	 * Copies a file
 	 *
-	 * @param   string   $src          The path to the source file
-	 * @param   string   $dest         The path to the destination file
-	 * @param   string   $path         An optional base path to prefix to the file names
+	 * @param   string   $src	   The path to the source file
+	 * @param   string   $dest	   The path to the destination file
+	 * @param   string   $path	   An optional base path to prefix to the file names
 	 * @param   boolean  $use_streams  True to use streams
 	 *
 	 * @return  boolean  True on success
@@ -219,9 +243,9 @@ class JFile
 	/**
 	 * Moves a file
 	 *
-	 * @param   string   $src          The path to the source file
-	 * @param   string   $dest         The path to the destination file
-	 * @param   string   $path         An optional base path to prefix to the file names
+	 * @param   string   $src	   The path to the source file
+	 * @param   string   $dest	   The path to the destination file
+	 * @param   string   $path	   An optional base path to prefix to the file names
 	 * @param   boolean  $use_streams  True to use streams
 	 *
 	 * @return  boolean  True on success
@@ -294,16 +318,16 @@ class JFile
 	/**
 	 * Read the contents of a file
 	 *
-	 * @param   string   $filename   The full file path
-	 * @param   boolean  $incpath    Use include path
-	 * @param   integer  $amount     Amount of file to read
+	 * @param   string   $filename	 The full file path
+	 * @param   boolean  $incpath	 Use include path
+	 * @param   integer  $amount	 Amount of file to read
 	 * @param   integer  $chunksize  Size of chunks to read
-	 * @param   integer  $offset     Offset of the file
+	 * @param   integer  $offset	 Offset of the file
 	 *
 	 * @return  mixed  Returns file contents or boolean False if failed
 	 *
 	 * @since   11.1
-	 * @deprecated  13.3  Use the native file_get_contents() instead.
+	 * @deprecated	13.3  Use the native file_get_contents() instead.
 	 */
 	public static function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
@@ -364,8 +388,8 @@ class JFile
 	/**
 	 * Write contents to a file
 	 *
-	 * @param   string   $file         The full file path
-	 * @param   string   &$buffer      The buffer to write
+	 * @param   string   $file	   The full file path
+	 * @param   string   &$buffer	   The buffer to write
 	 * @param   boolean  $use_streams  Use streams
 	 *
 	 * @return  boolean  True on success
@@ -425,8 +449,8 @@ class JFile
 	/**
 	 * Moves an uploaded file to a destination folder
 	 *
-	 * @param   string   $src          The name of the php (temporary) uploaded file
-	 * @param   string   $dest         The path (including filename) to move the uploaded file to
+	 * @param   string   $src	   The name of the php (temporary) uploaded file
+	 * @param   string   $dest	   The path (including filename) to move the uploaded file to
 	 * @param   boolean  $use_streams  True to use streams
 	 *
 	 * @return  boolean  True on success
@@ -530,7 +554,7 @@ class JFile
 	 * @return  string  filename
 	 *
 	 * @since   11.1
-	 * @deprecated  13.3 Use basename() instead.
+	 * @deprecated	13.3 Use basename() instead.
 	 */
 	public static function getName($file)
 	{
